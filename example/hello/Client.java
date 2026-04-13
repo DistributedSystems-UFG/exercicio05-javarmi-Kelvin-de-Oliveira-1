@@ -1,5 +1,7 @@
 package example.hello;
 
+import example.clock.Clock;
+
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -22,6 +24,9 @@ public class Client {
             Hello stub = (Hello) Naming.lookup("rmi://" + host + "/MyHello"); 
             System.out.println("Found server");
 
+            Clock relogioBobo = (Clock) Naming.lookup("rmi://" + host + "/DumbClock");
+            System.out.println("Found server clock");
+
             String response = stub.sayHello();
             System.out.println("Response: " + response);
 
@@ -39,7 +44,13 @@ public class Client {
 
             resultD = stub.dividir(2, 4);
             System.out.println("Response from dividir: " + resultD);
-            
+
+            String horaAtual = relogioBobo.whatTimeIsIt();
+            System.out.println("Response from whatTimeIsIt: " + horaAtual);
+
+            String dataAtual = relogioBobo.whatDateIsIt();
+            System.out.println("Response from whatDateIsIt: " + dataAtual);
+
         } catch (Exception e) {
             System.err.println("Client exception: " + e.toString());
             e.printStackTrace();
